@@ -1,0 +1,4 @@
+*           @mattermost/core-developers
+
+Makefile    @mattermost/core-build-engineers
+.github/*   @mattermost/core-build-engineers
