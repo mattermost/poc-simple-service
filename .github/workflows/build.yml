@@ -1,6 +1,7 @@
 name: "Branch & PR"
 
-on: [ push , pull_request ]
+on: 
+  push: [ push ]
 
 permissions:
   security-events: write
