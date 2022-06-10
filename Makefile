@@ -25,7 +25,7 @@ MAKEFLAGS     += --warn-undefined-variables
 .DEFAULT_GOAL := help
 
 # App Code location
-CONFIG_APP_CODE         += ./cmd/rtcd
+CONFIG_APP_CODE         += ./
 
 ## Docker Variables
 # Docker executable
