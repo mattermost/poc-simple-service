@@ -30,9 +30,6 @@ jobs:
     - name: Lint
       run: make lint
 
-    - name: Mod Check
-      run: make go-mod-check
-
     - name: Build
       run: make build
 
