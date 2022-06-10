@@ -1,0 +1,42 @@
+name: "Branch & PR"
+
+on: [ push , pull_request ]
+
+permissions:
+  security-events: write
+
+jobs:
+  verify:
+    name: Verify Code
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        language: [ 'go' ]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+
+    - name: Init CodeQL
+      uses: github/codeql-action/init@27ea8f8fe5977c00f5b37e076ab846c5bd783b96
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Test
+      run: make test
+
+    - name: Lint
+      run: make lint
+
+    - name: Mod Check
+      run: make go-mod-check
+
+    - name: Build
+      run: make build
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@27ea8f8fe5977c00f5b37e076ab846c5bd783b96
+
+    
