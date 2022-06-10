@@ -67,7 +67,7 @@ GO_LDFLAGS                   += -X "github.com/mattermost/${APP_NAME}/service.bu
 GO_LDFLAGS                   += -X "github.com/mattermost/${APP_NAME}/service.goVersion=$(GO_VERSION)"
 # Architectures to build for
 GO_BUILD_PLATFORMS           ?= linux-amd64 linux-arm64 darwin-amd64 darwin-arm64 freebsd-amd64
-GO_BUILD_PLATFORMS_ARTIFACTS = $(foreach cmd,$(addprefix go-build/,${APP_NAME}),$(addprefix $(cmd)-,$(GO_BUILD_PLATFORMS)))
+GO_BUILD_PLATFORMS_ARTIFACTS = $(foreach cmd,$(addprefix go-build/,$(subst -,_,${APP_NAME})),$(addprefix $(cmd)-,$(GO_BUILD_PLATFORMS)))
 # Build options
 GO_BUILD_OPTS                += -mod=readonly -trimpath
 GO_TEST_OPTS                 += -mod=readonly -failfast -race
@@ -255,16 +255,19 @@ go-build/%:
 	command="$${target%%-*}"; \
 	platform_ext="$${target#*-}"; \
 	platform="$${platform_ext%.*}"; \
-	export GOOS="$${platform%%-*}"; \
-	export GOARCH="$${platform#*-}"; \
+	GOOS="$${platform%%-*}"; \
+	GOARCH="$${platform#*-}"; \
+	export GOOS="$${GOOS}"; \
+	export GOARCH="$${GOARCH}"; \
 	echo export GOOS=$${GOOS}; \
 	echo export GOARCH=$${GOARCH}; \
 	CGO_ENABLED=0 \
 	$(GO) build ${GO_BUILD_OPTS} \
 	-ldflags '${GO_LDFLAGS}' \
-	-o ${GO_OUT_BIN_DIR}/$* \
+	-o ${GO_OUT_BIN_DIR}/${APP_NAME}-$${GOOS}-$${GOARCH} \
 	${CONFIG_APP_CODE} || ${FAIL}
 	@$(OK) go build $*
+	
 
 .PHONY: go-build-docker
 go-build-docker: # to build binaries under a controlled docker dedicated go container using DOCKER_IMAGE_GO
