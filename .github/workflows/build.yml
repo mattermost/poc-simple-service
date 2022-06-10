@@ -1,7 +1,6 @@
 name: "Branch & PR"
 
-on: 
-  push: [ push ]
+on: [ push ]
 
 permissions:
   security-events: write
