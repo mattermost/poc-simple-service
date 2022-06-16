@@ -25,8 +25,8 @@ jobs:
     - name: Build
       if: ${{ inputs.job == 'Build' }}
       run: |
-        echo -e "${{ input.output }}"
-        if [[ ${{ input.status }} != "success" ]]; then
+        echo -e "${{ inputs.output }}"
+        if [[ ${{ inputs.status }} != "success" ]]; then
           exit 1
         fi
       
