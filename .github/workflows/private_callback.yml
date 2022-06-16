@@ -1,9 +1,19 @@
 name: "Private"
 
-on:
-  repository_dispatch:
-    types: private-callback
-
+on: workflow_dispatch
+  inputs:
+    job:
+      description: 'Job Name'
+      required: false 
+      type: string
+    status:
+      description: 'Job status'
+      type: string
+      required: false 
+    output:
+      description: 'Output'
+      type: string
+      required: false 
 jobs:
   build:
     name: Build
@@ -11,13 +21,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
-      with: 
-        ref: "${{ github.event.client_payload.ref }}"
     - name: Build
+      if: ${{ inputs.job == 'Build' }}
       run: |
-        echo -e "${{ github.event.client_payload.output }}"
-        if [[ ${{ github.event.client_payload.status }} !== "success" ]]; then
+        echo -e "${{ input.output }}"
+        if [[ ${{ input.status }} != "success" ]]; then
           exit 1
         fi
-      if: ${{ github.event.client_payload.name == 'Build' }}
+      
   
