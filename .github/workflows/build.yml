@@ -29,6 +29,6 @@ jobs:
         with:
           token: ${{ secrets.TRIGGER_TOKEN }}
           repository: mattermost/poc-simple-service-pipelines
-          event-type: package-application
+          event-type: release-application
           client-payload: '{"sha": "${{ github.sha }}","repository": "${{ github.repository }}","ref":"${{ github.ref}}"}'  
 
