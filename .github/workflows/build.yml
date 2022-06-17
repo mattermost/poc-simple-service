@@ -20,7 +20,7 @@ jobs:
     - name: Lint
       run: make lint
   release:
-    name: Release
+    name: Package
     runs-on: ubuntu-latest
     needs: [test,lint]
     steps:
@@ -29,6 +29,6 @@ jobs:
         with:
           token: ${{ secrets.TRIGGER_TOKEN }}
           repository: mattermost/poc-simple-service-pipelines
-          event-type: release-application
+          event-type: package-application
           client-payload: '{"sha": "${{ github.sha }}","repository": "${{ github.repository }}","ref":"${{ github.ref}}"}'  
 
