@@ -12,7 +12,7 @@ type welcomeResponse struct {
 }
 
 func hello(c *gin.Context) {
-	var response = welcomeResponse{Message: "Hello!"}
+	var response = welcomeResponse{Message: "Hello World!"}
 	c.IndentedJSON(http.StatusOK, response)
 }
 
